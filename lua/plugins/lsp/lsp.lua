@@ -97,8 +97,8 @@ return {
 		local servers = {
 			-- clangd = {},
 			-- gopls = {},
-			-- pyright = {},
-			ruff = { filetypes = { "python" } },
+			pyright = {},
+			-- ruff = { filetypes = { "python" } },
 			-- rust_analyzer = {},
 			-- tsserver = {},
 			-- html = { filetypes = { 'html', 'twig', 'hbs'} },

@@ -11,7 +11,7 @@ return {
 		workspaces = {
 			{
 				name = "Zettelkasten",
-				path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettelkasten",
+				path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettelkasten/",
 				overrides = {
 					notes_subdir = "/Fleeting Notes",
 				},

@@ -26,7 +26,7 @@ keymap("n", "<S-j>", ":resize -5<CR>", opts)
 keymap("v", "<S-j>", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "<S-k>", ":m '<-2<CR>gv=gv", opts)
 --Keymaps for nvim tree
-keymap("n", "<leader>t", ":NvimTreeToggle<CR>", opts)
+-- keymap("n", "<leader>t", ":NvimTreeToggle<CR>", opts)
 -- keymap("n", "<leader>e", ":NvimTreeFindFile<CR>", { noremap = true, silent = true })
 -- Send the section of code to the terminal
 map("n", "<leader>sc", ":IPythonCellExecuteCell<CR>", opts)

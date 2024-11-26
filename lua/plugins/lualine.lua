@@ -43,7 +43,8 @@ return {
 						-- 	removed = "LuaLineDiffDelete",
 						-- },
 
-						symbols = { added = " ", modified = "♻️ ", removed = " " },
+						-- symbols = { added = " ", modified = "~", removed = " " },
+						symbols = { added = "+ ", modified = "~ ", removed = "- " },
 					},
 					{
 						"diagnostics",
