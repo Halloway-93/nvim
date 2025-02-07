@@ -5,10 +5,10 @@ return {
 		ft = "python", -- Load only for Python files
 		config = function()
 			-- Optional: configure vim-slime here
-			vim.g.slime_target = "zellij" -- Example: set the target to tmux
+			vim.g.slime_target = "kitty" -- Example: set the target to tmux
 			-- vim.b.slime_bracketed_paste = 1
-			vim.g.slime_default_config = {session_id= "current", relative_pane= "right"}
-			vim.b.slime_python_ipython = 1
+			-- vim.g.slime_default_config = {session_id= "current", relative_pane= "right"}
+			vim.g.slime_python_ipython = 1
 			-- vim.g.slime_bracketed_paste = 1
 		end,
 	},

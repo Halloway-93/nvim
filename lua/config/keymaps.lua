@@ -5,6 +5,7 @@ local keymap = vim.keymap.set
 local dap = require("dap")
 local opts = { noremap = true, silent = true }
 map("i", "jk", "<ESC>", opts)
+map("t", "<Esc><Esc>", "<C-\\><C-n>", opts)
 -- Keymaps for moving between windows
 map("n", "<M-h>", "<C-W>h", opts)
 map("n", "<M-j>", "<C-W>j", opts)
@@ -26,7 +27,7 @@ keymap("n", "<S-j>", ":resize -5<CR>", opts)
 keymap("v", "<S-j>", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "<S-k>", ":m '<-2<CR>gv=gv", opts)
 --Keymaps for nvim tree
--- keymap("n", "<leader>t", ":NvimTreeToggle<CR>", opts)
+keymap("n", "<leader>t", ":Floaterminal<CR>", opts)
 -- keymap("n", "<leader>e", ":NvimTreeFindFile<CR>", { noremap = true, silent = true })
 -- Send the section of code to the terminal
 map("n", "<leader>sc", ":IPythonCellExecuteCell<CR>", opts)
@@ -62,7 +63,6 @@ keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic 
 keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 keymap("n", "<leader>o", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
--- keymap('n', '<leader>f', vim.lsp.buf.format, { desc = 'Format the code' })
 -- Key mapping to trigger the Format command
 map("x", "<leader>p", '"_dP', opts)
 map("n", "<Leader>f", [[:Format<CR>]], opts)

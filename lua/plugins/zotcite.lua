@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-telescope/telescope.nvim",
+
 		"jalvesaq/cmp-zotcite"
 	},
 	config = function()

@@ -6,10 +6,9 @@ return {
 		"williamboman/mason.nvim",
 
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-
 		"williamboman/mason-lspconfig.nvim",
 		-- Adds LSP completion capabilities
-		"hrsh7th/cmp-nvim-lsp",
+		-- "hrsh7th/cmp-nvim-lsp",
 
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -28,6 +27,7 @@ return {
 				},
 			},
 		},
+		"saghen/blink.cmp",
 	},
 	config = function()
 		-- [[ Configure LSP ]]
@@ -78,6 +78,8 @@ return {
 				end,
 			})
 		end
+
+		-- for blink
 		-- Create an autocommand that triggers on BufWritePost
 
 		-- mason-lspconfig requires that these setup functions are called in this order
@@ -115,9 +117,9 @@ return {
 		}
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
+		-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+		-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
 		-- Ensure the servers above are installed
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
