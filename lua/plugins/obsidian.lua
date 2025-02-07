@@ -56,7 +56,7 @@ return {
 			end
 			return tostring(os.time()) .. "-" .. suffix
 		end,
-
+ui = { enable = false },
 		daily_notes = {
 			-- Optional, if you keep daily notes in a separate directory.
 			folder = "/Daily Journal",
