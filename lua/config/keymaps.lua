@@ -65,7 +65,7 @@ keymap("n", "<leader>o", vim.diagnostic.open_float, { desc = "Open floating diag
 keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 -- Key mapping to trigger the Format command
 map("x", "<leader>p", '"_dP', opts)
-map("n", "<Leader>f", [[:Format<CR>]], opts)
+-- map("n", "<Leader>f", [[:Format<CR>]], opts)
 --keep the cursor centered when scrolling
 keymap("n", "<C-d>", "<C-d>zz", {})
 keymap("n", "<C-u>", "<C-u>zz", {})
@@ -76,7 +76,7 @@ keymap("n", "N", "Nzzzv", {})
 -- Keymaps for Obsidian:
 keymap("n", "<leader>nn", [[:ObsidianNew<CR>]])
 keymap("n", "<leader>ot", [[:ObsidianTemplate<CR>]])
-keymap("n", "<leader>gn", [[:ObsidianSearch<CR>]], { desc = "[G]rep [N]otes" })
+keymap("n", "<leader>gn", [[:ObsidianQuickSwitch<CR>]], { desc = "[G]rep [N]otes" })
 
 -- Keymaps for debugger:
 keymap("n", "<leader>dc", function()
