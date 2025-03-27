@@ -104,15 +104,18 @@ end)
 
 --Entering in writer mode
 keymap("n", "<leader>p", [[:Pencil|ZenMode<CR>]])
-
--- Pandoc Markdown to PDF conversion with Zotero citations
+-- Pandoc md to pdf
 vim.keymap.set("n", "<leader>pdf", function()
 	local current_file = vim.fn.shellescape(vim.fn.expand("%"))
 	local output_file = vim.fn.shellescape(vim.fn.expand("%:r") .. ".pdf")
 	local zotref_path = vim.fn.shellescape(vim.fn.expand("~/.local/share/nvim/lazy/zotcite/python3/zotref.py"))
 	local csl_path = vim.fn.shellescape(vim.fn.expand("~/Zotero/styles/ieee.csl"))
-
-	local cmd =
-		string.format("!pandoc %s -s -o %s -F %s --citeproc --csl=%s", current_file, output_file, zotref_path, csl_path)
+	local cmd = string.format(
+		"!pandoc %s -s -o %s --filter pandoc-crossref -F %s --citeproc --csl=%s",
+		current_file,
+		output_file,
+		zotref_path,
+		csl_path
+	)
 	vim.cmd(cmd)
-end, { desc = "Convert markdown to PDF with pandoc+zotero" }) -- Pandoc Markdown to PDF conversion with Zotero citations
+end, { desc = "Convert markdown to PDF with pandoc+zotero+crossref" }) -- Pandoc Markdown to PDF conversion with Zotero citations

@@ -7,7 +7,7 @@ return {
 				lua = { "stylua" },
 				markdown = { "prettierd" }, -- conform will run multiple formatters sequentially
 
-				python = { "ruff", "black" },
+				python = { "ruff", "pyright" },
 				nix = { "alejandra" },
 				-- use a sub-list to run only the first available formatter
 				javascript = { "prettierd" },

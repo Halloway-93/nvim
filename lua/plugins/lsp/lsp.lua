@@ -8,7 +8,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		-- Adds LSP completion capabilities
-		-- "hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-nvim-lsp",
 
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -31,7 +31,6 @@ return {
 	},
 	config = function()
 		-- [[ Configure LSP ]]
-		require("lazy").setup()
 		--  This function gets run when an LSP connects to a particular buffer.
 		local on_attach = function(_, bufnr)
 			-- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -88,7 +87,8 @@ return {
 		require("mason-tool-installer").setup({
 
 			ensure_installed = {
-				"black",
+				"ruff",
+				"pyright",
 				"debugpy",
 				"stylua",
 				"luacheck",
@@ -100,7 +100,7 @@ return {
 			-- clangd = {},
 			-- gopls = {},
 			pyright = {},
-			-- ruff = { filetypes = { "python" } },
+			ruff = { filetypes = { "python" } },
 			-- rust_analyzer = {},
 			-- tsserver = {},
 			-- html = { filetypes = { 'html', 'twig', 'hbs'} },
@@ -117,8 +117,8 @@ return {
 		}
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-		-- local capabilities = vim.lsp.protocol.make_client_capabilities()
-		-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 		-- local capabilities = require("blink.cmp").get_lsp_capabilities()
 		-- Ensure the servers above are installed
 		local mason_lspconfig = require("mason-lspconfig")

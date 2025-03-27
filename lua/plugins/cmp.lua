@@ -5,7 +5,6 @@ return {
 		"jmbuhr/cmp-pandoc-references", -- Snippet Engine & its associated nvim-cmp source
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
-
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-buffer",
 		-- Adds a number of user-friendly snippets
@@ -58,7 +57,7 @@ return {
 			}),
 			sources = {
 				-- { name = "copilot", group_index = 2 },
-				-- Other Sources{ name = 'pandoc_references' }
+				-- Other Sources
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "buffer" },
