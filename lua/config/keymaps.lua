@@ -108,8 +108,9 @@ keymap("n", "<leader>p", [[:Pencil|ZenMode<CR>]])
 vim.keymap.set("n", "<leader>pdf", function()
 	local current_file = vim.fn.shellescape(vim.fn.expand("%"))
 	local output_file = vim.fn.shellescape(vim.fn.expand("%:r") .. ".pdf")
-	local zotref_path = vim.fn.shellescape(vim.fn.expand("~/.local/share/nvim/lazy/zotcite/python3/zotref.py"))
-	local csl_path = vim.fn.shellescape(vim.fn.expand("~/Zotero/styles/ieee.csl"))
+	local zotref_path =
+		vim.fn.shellescape(vim.fn.expand("/Users/mango/.local/share/nvim/lazy/zotcite/python3/zotref.py"))
+	local csl_path = vim.fn.shellescape(vim.fn.expand("/Users/mango/Zotero/styles/ieee.csl"))
 	local cmd = string.format(
 		"!pandoc %s -s -o %s --filter pandoc-crossref -F %s --citeproc --csl=%s",
 		current_file,

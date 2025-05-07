@@ -5,6 +5,19 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		require("lazy.status")
+		-- Define the word count function that handles selection
+		local function getWords()
+			local wc = vim.fn.wordcount()
+
+			if wc["visual_words"] then
+				-- If text is selected, show the count of selected words
+				return "" .. tostring(wc["visual_words"])
+			else
+				-- Otherwise show total word count
+				return "" .. tostring(wc["words"])
+			end
+		end
+
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
@@ -26,6 +39,7 @@ return {
 					winbar = 1000,
 				},
 			},
+
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = {
@@ -61,6 +75,7 @@ return {
 				},
 				lualine_x = {
 					{ "encoding" },
+					{ getWords, icon = "󰈭" },
 					{ "fileformat", symbols = { unix = "", dos = "", mac = "" } },
 					"filetype",
 				},
@@ -80,13 +95,5 @@ return {
 			inactive_winbar = {},
 			extensions = {},
 		})
-		-- -- Define custom highlight groups for diff added, modified, and removed
-		-- vim.api.nvim_command("highlight LuaLineDiffAdd guifg=#00d133 guibg=#003440")
-		-- vim.api.nvim_command("highlight LuaLineDiffChange guifg=#c08f34 guibg=#003440")
-		-- vim.api.nvim_command("highlight LuaLineDiffDelete guifg=#db312f guibg=#003440")
-		-- -- custom highlight for diagnostics
-		-- vim.api.nvim_command("highlight LuaLineDiagnosticsError guifg=#db312f guibg=#002833")
-		-- vim.api.nvim_command("highlight LuaLineDiagnosticsWarn guifg=#c08f34 guibg=#002833")
-		-- vim.api.nvim_command("highlight LuaLineDiagnosticsHint guifg=#2aa097 guibg=#002833")
 	end,
 }
