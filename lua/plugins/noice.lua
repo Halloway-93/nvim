@@ -12,7 +12,7 @@ return {
 	},
 	config = function()
 		-- add any options here
-		require("notify").setup({ background_colour = "#000000" })-- add in setup if transparent bg
+		require("notify").setup()-- add in setup if transparent bg{ background_colour = "#000000" }
 		require("noice").setup({
 			lsp = {
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
