@@ -28,26 +28,6 @@ return {
 		-- [[ Configure LSP ]]
 		-- This function gets run when an LSP connects to a particular buffer.
 		local on_attach = function(_, bufnr)
-			local nmap = function(keys, func, desc)
-				if desc then
-					desc = "LSP: " .. desc
-				end
-				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-			end
-
-			nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-			nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-			nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-			nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-			nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-			nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-
-			-- Use K for hover documentation (standard Vim convention)
-			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-			nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-
 			-- Create a command `:Format` local to the LSP buffer
 			vim.api.nvim_create_user_command("Format", function(args)
 				local range = nil
@@ -83,7 +63,7 @@ return {
 				"stylua",
 				"luacheck",
 				"shellcheck",
-				'prettierd'
+				"prettierd",
 			},
 		})
 

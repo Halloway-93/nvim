@@ -41,32 +41,28 @@ map("n", "<leader>sa", ":IPythonCellExecuteCellJump<CR>", opts)
 map("n", "<leader>cb", ":IPythonCellInsertBelow<CR>", opts)
 
 --gitlazy keymap
-map("n", "<Leader>gg", [[:LazyGit<CR>]], opts)
+-- map("n", "<Leader>gg", [[:LazyGit<CR>]], opts)
 
---telescope
--- See `:help telescope.builtin`
-keymap("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
-keymap("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
-keymap(
-	"n",
-	"<leader>/",
-	-- You can pass additional configuration to telescope to change theme, layout, etc.
-	require("telescope.builtin").current_buffer_fuzzy_find,
-	{ desc = "[/] Fuzzily search in current buffer" }
-	-- keymap("n", "<leader>e", ":NvimTreeFindFile<CR>", { noremap = true, silent = true })
-)
-keymap("n", "<leader>gf", require("telescope.builtin").git_files, { desc = "Search [G]it [F]iles" })
-keymap("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
-keymap("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-keymap("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
-keymap("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-keymap("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-keymap("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
+-- --telescope
+-- -- See `:help telescope.builtin`
+-- keymap("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
+-- keymap("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+-- keymap(
+-- 	"n",
+-- 	"<leader>/",
+-- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
+-- 	require("telescope.builtin").current_buffer_fuzzy_find,
+-- 	{ desc = "[/] Fuzzily search in current buffer" }
+-- 	-- keymap("n", "<leader>e", ":NvimTreeFindFile<CR>", { noremap = true, silent = true })
+-- )
+-- keymap("n", "<leader>gf", require("telescope.builtin").git_files, { desc = "Search [G]it [F]iles" })
+-- keymap("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
+-- keymap("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+-- keymap("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
+-- keymap("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+-- keymap("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+-- keymap("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 -- Diagnostic keymaps
-keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-keymap("n", "<leader>do", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 -- Key mapping to trigger the Format command
 map("x", "<leader>p", '"_dP', opts)
 -- map("n", "<Leader>f", [[:Format<CR>]], opts)

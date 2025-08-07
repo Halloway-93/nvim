@@ -1,3 +1,54 @@
+return {
+	"saghen/blink.cmp",
+	-- optional: provides snippets for the snippet source
+	dependencies = {
+		"rafamadriz/friendly-snippets",
+	},
+	-- use a release tag to download pre-built binaries
+	version = "1.*",
+	---@module 'blink.cmp'
+	---@type blink.cmp.Config
+	-- In your cmp.lua file, for "saghen/blink.cmp"
+	-- In your cmp.lua file, for "saghen/blink.cmp"
+	-- TEMPORARY DEBUGGING CONFIGURATION
+	opts = {
+		keymap = {
+			preset = "default",
+		},
+		appearance = { nerd_font_variant = "mono" },
+		completion = {
+			documentation = { auto_show = true },
+			accept = {
+				-- Make sure auto-brackets don't interfere
+				auto_brackets = { enabled = false },
+			},
+		},
+		fuzzy = { implementation = "prefer_rust" },
+		-- ==========================================================
+		-- FINAL, CORRECTED SOURCES CONFIGURATION
+		-- ==========================================================
+		sources = {
+			-- Restore your other default sources
+			default = { "lsp", "path", "snippets", "buffer", "zotcite" },
+			-- The 'providers' table defines the details for custom sources
+			providers = {
+				zotcite = {
+					name = "zotcite",
+					module = "blink_zotcite", -- Points to our bridge file
+					score_offset = 1000, -- High priority for citations
+					-- The 'opts' table is the correct place for custom data.
+					-- This table will be passed to our source's 'new()' function.
+					opts = {
+						filetypes = { "pandoc", "markdown", "rmd", "quarto" },
+					},
+				},
+			},
+		},
+		-- Do not use opts_extend for this to keep it clear and simple
+	},
+	opts_extend = { "sources.default" },
+}
+
 -- return {
 -- 	-- Autocompletion
 -- 	"hrsh7th/nvim-cmp",
@@ -71,57 +122,3 @@
 -- 		})
 -- 	end
 -- }
-return {
-	"saghen/blink.cmp",
-	-- optional: provides snippets for the snippet source
-	dependencies = {
-		"rafamadriz/friendly-snippets",
-	},
-	-- use a release tag to download pre-built binaries
-	version = "1.*",
-	---@module 'blink.cmp'
-	---@type blink.cmp.Config
-	-- In your cmp.lua file, for "saghen/blink.cmp"
-	-- In your cmp.lua file, for "saghen/blink.cmp"
-	-- TEMPORARY DEBUGGING CONFIGURATION
-	opts = {
-		keymap = { 
-			preset = "default",
-			-- Try different keymap syntax for Ctrl+Y
-			['<C-y>'] = { 'accept' },
-			-- Also add Tab as accept for testing
-			['<Tab>'] = { 'accept', 'fallback' },
-		},
-		appearance = { nerd_font_variant = "mono" },
-		completion = { 
-			documentation = { auto_show = true },
-			accept = {
-				-- Make sure auto-brackets don't interfere
-				auto_brackets = { enabled = false },
-			},
-		},
-		fuzzy = { implementation = "prefer_rust" },
-		-- ==========================================================
-		-- FINAL, CORRECTED SOURCES CONFIGURATION
-		-- ==========================================================
-		sources = {
-			-- Restore your other default sources
-			default = { "lsp", "path", "snippets", "buffer", "zotcite" },
-			-- The 'providers' table defines the details for custom sources
-			providers = {
-				zotcite = {
-					name = "zotcite",
-					module = "blink_zotcite", -- Points to our bridge file
-					score_offset = 1000, -- High priority for citations
-					-- The 'opts' table is the correct place for custom data.
-					-- This table will be passed to our source's 'new()' function.
-					opts = {
-						filetypes = { "pandoc", "markdown", "rmd", "quarto" },
-					},
-				},
-			},
-		},
-		-- Do not use opts_extend for this to keep it clear and simple
-	},
-	opts_extend = { "sources.default" },
-}--
