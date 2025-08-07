@@ -1,33 +1,38 @@
 -- Blink.cmp compatible zotcite source
+-- Save this as: ~/.config/nvim/lua/blink_zotcite.lua
 
-local M = {}
+local Source = {}
 
--- Configuration options
-local options = {
-	filetypes = { "markdown", "rmd", "quarto", "typst", "vimwiki" },
-}
+-- Create a new instance of the source
+function Source.new(opts)
+	local self = setmetatable({}, { __index = Source })
 
--- Lazy load zotcite modules
-local zc = nil
-local function get_zotcite_config()
-	if not zc then
+	-- Default configuration
+	self.config = vim.tbl_extend("force", {
+		filetypes = { "markdown", "rmd", "quarto", "typst", "vimwiki", "pandoc" },
+	}, opts or {})
+
+	-- Lazy load zotcite modules
+	self.zc = nil
+
+	return self
+end
+
+-- Get zotcite config (lazy loaded)
+function Source:get_zotcite_config()
+	if not self.zc then
 		local ok, module = pcall(require, "zotcite.config")
 		if not ok then
 			return nil
 		end
-		zc = module
+		self.zc = module
 	end
-	return zc
+	return self.zc
 end
 
--- Setup function for configuration
-M.setup = function(opts)
-	options = vim.tbl_extend("force", options, opts or {})
-end
-
--- Check if the source is available for current filetype
-local function is_available()
-	for _, v in pairs(options.filetypes) do
+-- Check if the source is enabled for current filetype
+function Source:is_available()
+	for _, v in pairs(self.config.filetypes) do
 		if vim.bo.filetype == v then
 			return true
 		end
@@ -36,7 +41,7 @@ local function is_available()
 end
 
 -- Check if we're in valid markdown context (not in code blocks, etc.)
-local function is_valid_context(context)
+function Source:is_valid_context()
 	local lines = vim.api.nvim_buf_get_lines(vim.api.nvim_get_current_buf(), 0, -1, true)
 	local lnum = vim.fn.line(".")
 
@@ -55,20 +60,34 @@ local function is_valid_context(context)
 	return true
 end
 
+-- Check if we should trigger completion
+function Source:should_show_completion_items(context)
+	-- Check if source is available and context is valid
+	if not self:is_available() or not self:is_valid_context() then
+		return false
+	end
+
+	-- Check if we have @ trigger
+	local line_before_cursor = context.line:sub(1, context.cursor[2])
+	local trigger_offset = line_before_cursor:find("@[^%s]*$")
+
+	return trigger_offset ~= nil
+end
+
 -- Main completion function for blink.cmp
-M.get_completions = function(context, callback)
+function Source:get_completions(context, callback)
 	-- Check if zotcite is available
-	local zotcite_config = get_zotcite_config()
+	local zotcite_config = self:get_zotcite_config()
 	if not zotcite_config then
 		return callback({ items = {} })
 	end
 
-	-- Check if source is available and context is valid
-	if not is_available() or not is_valid_context(context) then
+	-- Check if we should show completions
+	if not self:should_show_completion_items(context) then
 		return callback({ items = {} })
 	end
 
-	-- Check if we have @ trigger
+	-- Find the @ trigger and extract input
 	local line_before_cursor = context.line:sub(1, context.cursor[2])
 	local trigger_offset = line_before_cursor:find("@[^%s]*$")
 
@@ -90,7 +109,11 @@ M.get_completions = function(context, callback)
 	end
 
 	-- Get matching Zotero keys
-	local itms = vim.fn.py3eval('ZotCite.GetMatch("' .. input .. '", "' .. fullfname .. '")')
+	local success, itms = pcall(vim.fn.py3eval, 'ZotCite.GetMatch("' .. input .. '", "' .. fullfname .. '")')
+
+	if not success then
+		return callback({ items = {} })
+	end
 
 	local items = {}
 	if itms then
@@ -100,20 +123,31 @@ M.get_completions = function(context, callback)
 				txt = vim.fn.strcharpart(txt, 0, 58) .. "⋯"
 			end
 
+			-- Clean the citation key to remove any whitespace/newlines
+			local clean_key = string.gsub(v[1], "%s+", "")
+
 			table.insert(items, {
 				label = txt,
-				kind = require("blink.cmp").lsp.CompletionItemKind.Reference,
-				insertText = v[1],
-				-- For blink.cmp, we need to specify the range to replace
+				kind = 17, -- CompletionItemKind.Reference
+				insertText = "@" .. clean_key, -- Keep the @ symbol, clean key
+				-- For blink.cmp, specify the range to replace (only replace from @ onwards)
 				textEdit = {
-					newText = v[1],
+					newText = "@" .. clean_key,
 					range = {
-						start = { line = context.cursor[1] - 1, character = trigger_offset - 1 },
-						["end"] = { line = context.cursor[1] - 1, character = context.cursor[2] },
+						start = {
+							line = context.cursor[1] - 1,
+							character = trigger_offset - 1, -- Include the @ in replacement
+						},
+						["end"] = {
+							line = context.cursor[1] - 1,
+							character = context.cursor[2],
+						},
 					},
 				},
+				-- Additional properties to control insertion behavior
+				insertTextFormat = 1, -- PlainText format
 				-- Store zotero key for documentation lookup
-				data = { zkey = v[1] },
+				data = { zkey = clean_key },
 			})
 		end
 	end
@@ -122,7 +156,7 @@ M.get_completions = function(context, callback)
 end
 
 -- Resolve function for additional documentation
-M.resolve = function(item, callback)
+function Source:resolve(item, callback)
 	if item.data and item.data.zkey then
 		-- Try to get zotcite.hl module
 		local ok, hl_module = pcall(require, "zotcite.hl")
@@ -133,9 +167,9 @@ M.resolve = function(item, callback)
 		end
 
 		local zkey = string.gsub(item.data.zkey, "%-.*", "")
-		local ref = vim.fn.py3eval('ZotCite.GetRefData("' .. zkey .. '")')
+		local success, ref = pcall(vim.fn.py3eval, 'ZotCite.GetRefData("' .. zkey .. '")')
 
-		if ref then
+		if success and ref then
 			local doc = ""
 			local ttl = " "
 			if ref.title then
@@ -171,14 +205,29 @@ M.resolve = function(item, callback)
 end
 
 -- Execute function (called after completion is accepted)
-M.execute = function(item, callback)
+function Source:execute(item, callback)
+	-- Try to highlight citations after insertion
 	local ok, config_module = pcall(require, "zotcite.config")
-	if ok then
+	if ok and config_module.hl_citations then
 		vim.schedule(function()
 			config_module.hl_citations()
 		end)
+	else
+		-- Fallback: try the hl module directly
+		local hl_ok, hl_module = pcall(require, "zotcite.hl")
+		if hl_ok and hl_module.citations then
+			vim.schedule(function()
+				hl_module.citations()
+			end)
+		end
 	end
-	callback(item)
+
+	-- Handle callback - it might be a function or table
+	if type(callback) == "function" then
+		callback()
+	elseif type(callback) == "table" and callback.callback then
+		callback.callback()
+	end
 end
 
-return M
+return Source

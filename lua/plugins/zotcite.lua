@@ -8,7 +8,7 @@ return {
 	config = function()
 		require("zotcite").setup({
 			-- your options here (see doc/zotcite.txt)
-	citation_template = "{author}{Year}",
+			citation_template = "{author}{Year}",
 		})
 	end,
 }

@@ -67,7 +67,7 @@ return {
 			pattern = "*",
 			callback = function()
 				-- Only format if there's an active LSP client for this buffer
-				if #vim.lsp.get_active_clients({ bufnr = 0 }) > 0 then
+				if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
 					vim.cmd("Format")
 				end
 			end,
@@ -83,6 +83,7 @@ return {
 				"stylua",
 				"luacheck",
 				"shellcheck",
+				'prettierd'
 			},
 		})
 

@@ -2,7 +2,7 @@
 -- 	-- Autocompletion
 -- 	"hrsh7th/nvim-cmp",
 -- 	dependencies = {
--- 		"jmbuhr/cmp-pandoc-references", -- Snippet Engine & its associated nvim-cmp source
+-- 		-- "jmbuhr/cmp-pandoc-references", -- Snippet Engine & its associated nvim-cmp source
 -- 		"L3MON4D3/LuaSnip",
 -- 		"saadparwaiz1/cmp_luasnip",
 -- 		"hrsh7th/cmp-path",
@@ -62,7 +62,7 @@
 -- 				{ name = "luasnip" },
 -- 				{ name = "buffer" },
 -- 				{ name = "path" },
--- 				{ name = "pandoc_references" },
+-- 				-- { name = "pandoc_references" },
 -- 				{ name = "cmp_zotcite" },
 -- 			},
 -- 			experimental = {
@@ -70,50 +70,58 @@
 -- 			},
 -- 		})
 -- 	end
+-- }
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
 	dependencies = {
 		"rafamadriz/friendly-snippets",
-		-- Add zotcite dependency
-		{
-			"jalvesaq/zotcite",
-			ft = { "markdown", "rmd", "quarto", "typst", "vimwiki" },
-		},
 	},
 	-- use a release tag to download pre-built binaries
 	version = "1.*",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
+	-- In your cmp.lua file, for "saghen/blink.cmp"
+	-- In your cmp.lua file, for "saghen/blink.cmp"
+	-- TEMPORARY DEBUGGING CONFIGURATION
 	opts = {
-		-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-		-- 'super-tab' for mappings similar to vscode (tab to accept)
-		-- 'enter' for enter to accept
-		-- 'none' for no mappings
-		keymap = { preset = "default" },
-		appearance = {
-			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-			-- Adjusts spacing to ensure icons are aligned
-			nerd_font_variant = "mono",
+		keymap = { 
+			preset = "default",
+			-- Try different keymap syntax for Ctrl+Y
+			['<C-y>'] = { 'accept' },
+			-- Also add Tab as accept for testing
+			['<Tab>'] = { 'accept', 'fallback' },
 		},
-		-- Show documentation popup automatically
-		completion = { documentation = { auto_show = true } },
-		-- Default list of enabled providers
+		appearance = { nerd_font_variant = "mono" },
+		completion = { 
+			documentation = { auto_show = true },
+			accept = {
+				-- Make sure auto-brackets don't interfere
+				auto_brackets = { enabled = false },
+			},
+		},
+		fuzzy = { implementation = "prefer_rust" },
+		-- ==========================================================
+		-- FINAL, CORRECTED SOURCES CONFIGURATION
+		-- ==========================================================
 		sources = {
+			-- Restore your other default sources
 			default = { "lsp", "path", "snippets", "buffer", "zotcite" },
+			-- The 'providers' table defines the details for custom sources
 			providers = {
 				zotcite = {
 					name = "zotcite",
-					module = "blink_zotcite",
+					module = "blink_zotcite", -- Points to our bridge file
 					score_offset = 1000, -- High priority for citations
+					-- The 'opts' table is the correct place for custom data.
+					-- This table will be passed to our source's 'new()' function.
 					opts = {
-						filetypes = { "markdown", "rmd", "quarto", "typst", "vimwiki" },
+						filetypes = { "pandoc", "markdown", "rmd", "quarto" },
 					},
 				},
 			},
 		},
-		-- Rust fuzzy matcher for better performance
-		fuzzy = { implementation = "prefer_rust" },
+		-- Do not use opts_extend for this to keep it clear and simple
 	},
 	opts_extend = { "sources.default" },
-}
+}--
