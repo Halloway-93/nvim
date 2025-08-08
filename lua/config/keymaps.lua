@@ -29,10 +29,10 @@ keymap("v", "<S-j>", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "<S-k>", ":m '<-2<CR>gv=gv", opts)
 
 --Keymaps for nvim tree
-keymap("n", "<leader>t", ":Floaterminal<CR>", opts)
+-- keymap("n", "<leader>t", ":Floaterminal<CR>", opts)
 
 -- Send the section of code to the terminal
-map("n", "<leader>sc", ":IPythonCellExecuteCell<CR>", opts)
+-- map("n", "<leader>sc", ":IPythonCellExecuteCell<CR>", opts)
 
 --Send the line of code to the terminal
 map("n", "<leader>sa", ":IPythonCellExecuteCellJump<CR>", opts)
