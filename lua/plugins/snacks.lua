@@ -40,7 +40,7 @@ return {
 		indent = { enabled = true },
 		input = { enabled = true },
 		picker = { enabled = true },
-		notifier = { enabled = true },
+		notifier = { sort = { "added" } },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
 		scroll = { enabled = true },
@@ -51,8 +51,11 @@ return {
 			enabled = true,
 			win = {
 				backdrop = {
-					transparent = false,
-					blend = 10, -- Adjust blend from 0 to 100
+					transparent = true,
+					blend = 40, -- Adjust blend from 0 to 100
+				},
+				wo = {
+					winhighlight = "NormalFloat:Normal",
 				},
 			},
 		},

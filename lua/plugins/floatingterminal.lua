@@ -1,6 +1,6 @@
 -- Function to create a floating window
 return {
-	dir = vim.fn.stdpath("config") .. "/lua/plugins/", -- points to your local plugin directory
+	dir = vim.fn.stdpath("config") .. "/lua/plugins/", -- points to local plugin directory
 	name = "floatingterminal",
 	lazy = false,
 	config = function()
