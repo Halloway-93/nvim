@@ -1,19 +1,15 @@
 return {
 	{
-		-- UI for the debugger.
-		"rcarriga/nvim-dap-ui",
+		"mfussenegger/nvim-dap",
 		event = "VeryLazy",
 		dependencies = {
-			"mfussenegger/nvim-dap",
+			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
-			-- "theHamsta/nvim-dap-virtual-text",
 		},
 		config = function()
 			-- Setup nvim-dap
 			local dap, dapui = require("dap"), require("dapui")
 			dapui.setup()
-			-- Setup nvim-dap-virtual-text
-			-- require("nvim-dap-virtual-text").setup({})
 
 			-- Open the UI automatically when attaching
 			dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -25,7 +21,31 @@ return {
 			dap.listeners.before.event_exited["dapui_config"] = function()
 				dapui.close()
 			end
-			vim.fn.sign_define('DapBreakpoint', { text='🔴', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
+			vim.fn.sign_define(
+				"DapBreakpoint",
+				{ text = "🔴", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+			)
+
+			------------------------------------------------------------------
+			-- VVVV  THIS IS THE BEST PLACE FOR YOUR STEPPING KEYMAPS VVVV  --
+			------------------------------------------------------------------
+			dap.listeners.after.event_initialized["dap_keymaps"] = function()
+				print("💡 DAP session started. Setting buffer-local stepping keymaps.")
+
+				-- Set keymaps for the current buffer only
+				-- vim.keymap.set(mode, keys, action, options)
+				vim.keymap.set("n", "<Down>", dap.step_over, { buffer = 0, silent = true, desc = "DAP: Step Over" })
+				vim.keymap.set("n", "<Right>", dap.step_into, { buffer = 0, silent = true, desc = "DAP: Step Into" })
+				vim.keymap.set("n", "<Left>", dap.step_out, { buffer = 0, silent = true, desc = "DAP: Step Out" })
+				vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
+				vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "DAP: Continue/Start" })
+				vim.keymap.set(
+					"n",
+					"<Up>",
+					dap.restart_frame,
+					{ buffer = 0, silent = true, desc = "DAP: Restart Frame" }
+				)
+			end
 		end,
 	},
 	{

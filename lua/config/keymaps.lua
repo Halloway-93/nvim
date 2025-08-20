@@ -2,7 +2,6 @@
 -- Navigate between split windows with Cmd+h, j, k, l
 local map = vim.api.nvim_set_keymap
 local keymap = vim.keymap.set
-local dap = require("dap")
 local opts = { noremap = true, silent = true }
 map("i", "jk", "<ESC>", opts)
 map("t", "<Esc><Esc>", "<C-\\><C-n>", opts)
@@ -40,28 +39,6 @@ map("n", "<leader>sa", ":IPythonCellExecuteCellJump<CR>", opts)
 --Send the all code  up to the cell to the terminal
 map("n", "<leader>cb", ":IPythonCellInsertBelow<CR>", opts)
 
---gitlazy keymap
--- map("n", "<Leader>gg", [[:LazyGit<CR>]], opts)
-
--- --telescope
--- -- See `:help telescope.builtin`
--- keymap("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
--- keymap("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
--- keymap(
--- 	"n",
--- 	"<leader>/",
--- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
--- 	require("telescope.builtin").current_buffer_fuzzy_find,
--- 	{ desc = "[/] Fuzzily search in current buffer" }
--- 	-- keymap("n", "<leader>e", ":NvimTreeFindFile<CR>", { noremap = true, silent = true })
--- )
--- keymap("n", "<leader>gf", require("telescope.builtin").git_files, { desc = "Search [G]it [F]iles" })
--- keymap("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
--- keymap("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
--- keymap("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
--- keymap("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
--- keymap("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
--- keymap("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 -- Diagnostic keymaps
 -- Key mapping to trigger the Format command
 map("x", "<leader>p", '"_dP', opts)
@@ -77,26 +54,6 @@ keymap("n", "N", "Nzzzv", {})
 keymap("n", "<leader>nn", [[:ObsidianNew<CR>]])
 keymap("n", "<leader>ot", [[:ObsidianTemplate<CR>]])
 keymap("n", "<leader>gn", [[:ObsidianQuickSwitch<CR>]], { desc = "[G]rep [N]otes" })
-
--- Keymaps for debugger:
-keymap("n", "<leader>dc", function()
-	dap.continue()
-end)
-keymap("n", "<F10>", function()
-	dap.step_over()
-end)
-keymap("n", "<F11>", function()
-	dap.step_into()
-end)
-keymap("n", "<F12>", function()
-	dap.step_out()
-end)
-keymap("n", "<Leader>b", function()
-	dap.toggle_breakpoint()
-end)
-keymap("n", "<Leader>B", function()
-	dap.set_breakpoint()
-end)
 
 --Entering in writer mode
 keymap("n", "<leader>p", [[:Pencil|ZenMode<CR>]])
