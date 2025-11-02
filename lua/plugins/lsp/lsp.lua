@@ -99,7 +99,7 @@ return {
 
 		-- Setup each server with blink.cmp capabilities
 		for server_name, server_settings in pairs(servers) do
-			require("lspconfig")[server_name].setup({
+			vim.lsp.config(server_name, {
 				capabilities = capabilities,
 				on_attach = on_attach,
 				settings = server_settings,
