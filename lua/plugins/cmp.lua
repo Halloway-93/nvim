@@ -3,6 +3,7 @@ return {
 	-- optional: provides snippets for the snippet source
 	dependencies = {
 		"rafamadriz/friendly-snippets",
+		"saghen/blink.compat",
 	},
 	-- use a release tag to download pre-built binaries
 	version = "1.*",
@@ -29,18 +30,30 @@ return {
 		-- ==========================================================
 		sources = {
 			-- Restore your other default sources
-			default = { "lsp", "path", "snippets", "buffer", "zotcite" },
+			default = { "lsp", "path", "snippets", "buffer", "zotcite", "obsidian", "obsidian_new", "obsidian_tags" },
 			-- The 'providers' table defines the details for custom sources
 			providers = {
+				obsidian = {
+					name = "obsidian",
+					module = "blink.compat.source",
+				},
+				obsidian_new = {
+					name = "obsidian_new",
+					module = "blink.compat.source",
+				},
+				obsidian_tags = {
+					name = "obsidian_tags",
+					module = "blink.compat.source",
+				},
 				zotcite = {
 					name = "zotcite",
-					module = "blink_zotcite", -- Points to our bridge file
-					score_offset = 1000, -- High priority for citations
-					-- The 'opts' table is the correct place for custom data.
-					-- This table will be passed to our source's 'new()' function.
-					opts = {
-						filetypes = { "pandoc", "markdown", "rmd", "quarto" },
-					},
+					module = "blink.compat.source", -- Points to our bridge file
+					-- score_offset = 1000, -- High priority for citations
+					-- -- The 'opts' table is the correct place for custom data.
+					-- -- This table will be passed to our source's 'new()' function.
+					-- opts = {
+					-- 	filetypes = { "pandoc", "markdown", "rmd", "quarto" },
+					-- },
 				},
 			},
 		},

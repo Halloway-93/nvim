@@ -43,13 +43,10 @@ return {
 		end
 
 		-- Auto-format on save (moved outside on_attach to avoid duplicates)
-		vim.api.nvim_create_autocmd("BufWritePost", {
+		vim.api.nvim_create_autocmd("BufWritePre", {
 			pattern = "*",
-			callback = function()
-				-- Only format if there's an active LSP client for this buffer
-				if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
-					vim.cmd("Format")
-				end
+			callback = function(args)
+				require("conform").format({ bufnr = args.buf, lsp_fallback = true })
 			end,
 		})
 

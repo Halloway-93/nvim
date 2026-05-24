@@ -56,20 +56,42 @@ keymap("n", "<leader>ot", [[:ObsidianTemplate<CR>]])
 keymap("n", "<leader>gn", [[:ObsidianQuickSwitch<CR>]], { desc = "[G]rep [N]otes" })
 
 --Entering in writer mode
-keymap("n", "<leader>p", [[:Pencil|ZenMode<CR>]])
+-- keymap("n", "<leader>p", [[:Pencil|ZenMode<CR>]])
 -- Pandoc md to pdf
 vim.keymap.set("n", "<leader>pdf", function()
-	local current_file = vim.fn.shellescape(vim.fn.expand("%"))
-	local output_file = vim.fn.shellescape(vim.fn.expand("%:r") .. ".pdf")
-	local zotref_path =
-		vim.fn.shellescape(vim.fn.expand("/Users/mango/.local/share/nvim/lazy/zotcite/python3/zotref.py"))
-	local csl_path = vim.fn.shellescape(vim.fn.expand("/Users/mango/Zotero/styles/ieee.csl"))
-	local cmd = string.format(
-		"!pandoc %s -s -o %s --filter pandoc-crossref -F %s --citeproc --csl=%s",
+	local current_file = vim.fn.expand("%")
+	local output_file = vim.fn.expand("%:r") .. ".pdf"
+	local csl_path = vim.fn.expand("~/Zotero/styles/pnas.csl")
+
+	local cmd = {
+		"pandoc",
 		current_file,
+		"-s",
+		"-o",
 		output_file,
-		zotref_path,
-		csl_path
-	)
-	vim.cmd(cmd)
-end, { desc = "Convert markdown to PDF with pandoc+zotero+crossref" }) -- Pandoc Markdown to PDF conversion with Zotero citations
+		"--filter",
+		"pandoc-crossref",
+		"--citeproc",
+		"--csl=" .. csl_path,
+	}
+
+	vim.fn.jobstart(cmd, {
+		env = {
+			PATH = "/usr/local/texlive/2026basic/bin/universal-darwin:" .. vim.env.PATH,
+			HOME = vim.env.HOME,
+		},
+		stderr_buffered = true,
+		on_stderr = function(_, data)
+			if data then
+				vim.notify(table.concat(data, "\n"), vim.log.levels.ERROR)
+			end
+		end,
+		on_exit = function(_, code)
+			if code == 0 then
+				vim.notify("PDF built successfully", vim.log.levels.INFO)
+			else
+				vim.notify("Pandoc failed with code " .. code, vim.log.levels.ERROR)
+			end
+		end,
+	})
+end, { desc = "Convert markdown to PDF" })

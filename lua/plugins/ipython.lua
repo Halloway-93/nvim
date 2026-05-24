@@ -4,7 +4,6 @@ return {
 		"jpalardy/vim-slime",
 		ft = "python", -- Load only for Python files
 		config = function()
-			-- Optional: configure vim-slime here
 			-- vim.g.slime_target = "kitty" -- Example: set the target to tmux
 			vim.g.slime_target = "zellij" -- Example: set the target to tmux
 			-- vim.b.slime_bracketed_paste = 1
