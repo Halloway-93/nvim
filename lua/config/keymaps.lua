@@ -52,6 +52,7 @@ keymap("n", "N", "Nzzzv", {})
 
 -- Keymaps for Obsidian:
 keymap("n", "<leader>nn", [[:ObsidianNew<CR>]])
+keymap("n", "<leader>od", [[:ObsidianToday<CR>]], { desc = "[O]bsidian [D]aily" })
 keymap("n", "<leader>ot", [[:ObsidianTemplate<CR>]])
 keymap("n", "<leader>gn", [[:ObsidianQuickSwitch<CR>]], { desc = "[G]rep [N]otes" })
 

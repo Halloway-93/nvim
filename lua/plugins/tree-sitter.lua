@@ -1,13 +1,11 @@
 return {
-	-- Highlight, edit, and navigate code
 	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
 	},
 	config = function()
-		require("nvim-treesitter.configs").setup({
-			highlight = { enable = true },
-			indent = { enable = true },
+		require("nvim-treesitter").setup({
 			ensure_installed = {
 				"bash",
 				"html",
@@ -29,6 +27,8 @@ return {
 				"xml",
 				"yaml",
 			},
+			highlight = { enable = true },
+			indent = { enable = true },
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -39,6 +39,14 @@ return {
 				},
 			},
 			textobjects = {
+				select = {
+					enable = true,
+					lookahead = true,
+					keymaps = {
+						["af"] = "@function.outer",
+						["if"] = "@function.inner",
+					},
+				},
 				move = {
 					enable = true,
 					goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
@@ -48,6 +56,7 @@ return {
 				},
 			},
 		})
+
 		vim.o.foldmethod = "expr"
 		vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 		vim.o.foldenable = false
